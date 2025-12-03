@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 计算力学学术会议 (CCM 2026) 会议手册</title>
+    <style>
+        :root {
+            --primary: #003366; /* 学术深蓝 */
+            --accent: #d35400;  /* 活力橙，用于强调时间 */
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --light-text: #7f8c8d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding-bottom: 60px; /* 为底部导航留空 */
+            line-height: 1.6;
+        }
+
+        /* 顶部封面区 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 1.8rem; font-weight: 700; }
+        .subtitle { font-size: 0.9rem; opacity: 0.9; margin-top: 10px; }
+        .meta-info { margin-top: 20px; font-size: 0.9rem; display: flex; justify-content: center; gap: 15px; }
+        .meta-tag { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+
+        /* 内容容器 */
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* 卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+
+        /* 实用信息网格 */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .info-item { background: #f8f9fa; padding: 10px; border-radius: 8px; text-align: center; }
+        .info-label { font-size: 0.8rem; color: var(--light-text); display: block; }
+        .info-value { font-weight: bold; color: var(--primary); font-size: 1.1rem; display: block; margin-top: 5px; }
+
+        /* 日程列表 */
+        .schedule-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        .schedule-item:last-child { border-bottom: none; }
+        
+        .time-col {
+            min-width: 80px;
+            font-weight: bold;
+            color: var(--text);
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .content-col { flex: 1; }
+        .session-title { font-weight: 600; font-size: 1rem; color: #333; }
+        .session-speaker { font-size: 0.9rem; color: #666; margin-top: 4px; }
+        .session-desc { font-size: 0.85rem; color: #888; margin-top: 4px; font-style: italic; }
+        
+        /* 状态标记 */
+        .status-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .status-keynote { background: #e8f4fd; color: #3498db; }
+        .status-break { background: #fef9e7; color: #f1c40f; }
+        
+        /* 当前正在进行的时间段高亮 */
+        .schedule-item.active {
+            background: #f0f8ff;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
+            margin-left: -13px; /* 补偿边框位移 */
+        }
+
+        /* 底部浮动导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        .nav-btn {
+            text-align: center;
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+        .nav-btn.active { color: var(--primary); font-weight: bold; }
+        .nav-icon { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+
+        /* 地图占位 */
+        .map-placeholder {
+            background: #e9ecef;
+            height: 150px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* 隐藏内容 */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>2026 计算力学学术会议</h1>
+        <div class="subtitle">Computational Mechanics Conference 2026</div>
+        <div class="meta-info">
+            <span class="meta-tag">📅 2026年1月10日</span>
+            <span class="meta-tag">📍 第二教学楼 305</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="tab-agenda" class="tab-content active">
+            
+            <div class="card" style="background: #fff8e1; border: 1px solid #ffe0b2;">
+                <h3 class="card-title" style="border-color: #ff9800; color: #e65100; margin-bottom: 10px;">📢 参会须知</h3>
+                <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem; color: #5d4037;">
+                    <li>请报告人提前 15 分钟将 PPT 拷贝至讲台电脑。</li>
+                    <li>会场已覆盖 WiFi，密码请见下方“实用信息”。</li>
+                    <li>午餐凭券至一楼教工餐厅用餐。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">上午日程 (08:30 - 12:00)</h3>
+                
+                <div class="schedule-item">
+                    <div class="time-col">08:30</div>
+                    <div class="content-col">
+                        <div class="session-title">签到注册 & 领取资料</div>
+                        <div class="session-desc">地点：305 会议室门口</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">09:00</div>
+                    <div class="content-col">
+                        <div class="session-title">开幕致辞</div>
+                        <div class="session-speaker">主持人：张教授（组委会主席）</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">09:15</div>
+                    <div class="content-col">
+                        <div class="session-title">特邀报告：深度学习在非线性有限元中的应用 <span class="status-badge status-keynote">Keynote</span></div>
+                        <div class="session-speaker">报告人：李院士 (XX大学)</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">10:00</div>
+                    <div class="content-col">
+                        <div class="session-title">茶歇 & 合影 <span class="status-badge status-break">Break</span></div>
+                        <div class="session-desc">请移步走廊区域</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">10:30</div>
+                    <div class="content-col">
+                        <div class="session-title">分会场报告：多尺度材料模拟</div>
+                        <div class="session-speaker">包含 4 个短报告 (每个 15 分钟)</div>
+                        <div class="session-desc">Topic: 晶体塑性、复合材料失效机制等</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">下午日程 (13:30 - 17:30)</h3>
+                
+                <div class="schedule-item">
+                    <div class="time-col">13:30</div>
+                    <div class="content-col">
+                        <div class="session-title">特邀报告：超大规模流固耦合计算方法</div>
+                        <div class="session-speaker">报告人：Dr. Wang (国家超算中心)</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">14:15</div>
+                    <div class="content-col">
+                        <div class="session-title">专题研讨：工业软件自主化挑战</div>
+                        <div class="session-speaker">圆桌讨论 (Panel Discussion)</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">15:15</div>
+                    <div class="content-col">
+                        <div class="session-title">茶歇 (Coffee Break) <span class="status-badge status-break">Break</span></div>
+                    </div>
+                </div>
+                
+                <div class="schedule-item">
+                    <div class="time-col">15:45</div>
+                    <div class="content-col">
+                        <div class="session-title">研究生优秀论文汇报</div>
+                        <div class="session-desc">共 5 位汇报人，每人 10 分钟汇报 + 5 分钟提问</div>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-col">17:15</div>
+                    <div class="content-col">
+                        <div class="session-title">闭幕式 & 优秀论文颁奖</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-guide" class="tab-content">
+            <div class="card">
+                <h3 class="card-title">实用信息</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">WiFi 名称</span>
+                        <span class="info-value">EduRoam / CCM2026</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">WiFi 密码</span>
+                        <span class="info-value">ccm2026@mech</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">午餐地点</span>
+                        <span class="info-value">教工餐厅 2楼</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">晚宴地点</span>
+                        <span class="info-value">校宾馆 宴会厅</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">交通与地图</h3>
+                <p style="font-size: 0.9rem;">📍 <strong>会场地址：</strong>XX大学 东校区 第二教学楼 305室</p>
+                <div class="map-placeholder">
+                    [此处可插入百度/高德地图截图或嵌入代码]
+                </div>
+                <div style="margin-top: 15px; display: grid; gap: 10px;">
+                    <button onclick="alert('即将跳转地图APP...')" style="background: #ebf5fb; border: none; padding: 10px; color: var(--primary); border-radius: 6px; font-weight: bold;">🗺️ 打开导航</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">紧急联系人</h3>
+                <div class="schedule-item">
+                    <div class="content-col">
+                        <div class="session-title">会务总负责人：王老师</div>
+                        <div class="session-desc">电话：138-xxxx-xxxx</div>
+                    </div>
+                    <a href="tel:13800000000" style="padding: 5px 15px; background: var(--primary); color: white; text-decoration: none; border-radius: 4px; font-size: 0.8rem; height: fit-content; align-self: center;">拨打</a>
+                </div>
+                <div class="schedule-item">
+                    <div class="content-col">
+                        <div class="session-title">AV技术支持：李同学</div>
+                        <div class="session-desc">PPT投影、麦克风故障请联系</div>
+                    </div>
+                    <a href="tel:13900000000" style="padding: 5px 15px; background: #95a5a6; color: white; text-decoration: none; border-radius: 4px; font-size: 0.8rem; height: fit-content; align-self: center;">拨打</a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="tab-about" class="tab-content">
+            <div class="card">
+                <h3 class="card-title">欢迎辞</h3>
+                <p style="font-size: 0.95rem; text-indent: 2em; text-align: justify;">
+                    尊敬的各位专家、学者：<br><br>
+                    欢迎来到美丽的XX大学参加2026年计算力学学术会议。本次会议旨在探讨计算力学前沿算法、多物理场耦合模拟及工程应用中的关键问题...
+                </p>
+                <p style="text-align: right; font-weight: bold; margin-top: 20px;">
+                    —— 会议组委会
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title">组织机构</h3>
+                <p><strong>主办单位：</strong>XX大学 力学与工程学院</p>
+                <p><strong>协办单位：</strong>XX省力学学会</p>
+                <p><strong>赞助商：</strong>Ansys / Abaqus / XX科技</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-btn active" onclick="switchTab('agenda', this)">
+            <span class="nav-icon">📅</span>
+            会议日程
+        </a>
+        <a href="#" class="nav-btn" onclick="switchTab('guide', this)">
+            <span class="nav-icon">🧭</span>
+            指南/地图
+        </a>
+        <a href="#" class="nav-btn" onclick="switchTab('about', this)">
+            <span class="nav-icon">ℹ️</span>
+            关于会议
+        </a>
+    </nav>
+
+    <script>
+        // 切换标签页逻辑
+        function switchTab(tabId, element) {
+            // 隐藏所有内容
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // 取消所有按钮激活状态
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            // 激活选中内容
+            document.getElementById('tab-' + tabId).classList.add('active');
+            // 激活按钮
+            element.classList.add('active');
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+        }
+
+        // 自动高亮当前时间段的逻辑（模拟）
+        function highlightCurrentSession() {
+            const now = new Date();
+            // 假设会议是 2026-01-10，为了演示效果，我们忽略日期只比对时间
+            // 实际使用时需严格判断日期
+            const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMin;
+
+            // 这里是一个简单的逻辑演示，实际可根据 data-start 和 data-end 属性精确判断
+            // 示例：如果现在是 9:30 (570分钟)
+            // 你可以在 HTML .schedule-item 中添加 data-start="540" (9:00) data-end="600" (10:00)
+        }
+
+        // 初始化
+        highlightCurrentSession();
+    </script>
+</body>
+</html>
