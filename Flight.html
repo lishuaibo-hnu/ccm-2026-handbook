@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1月9日参会航班统计</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f7; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { color: #333; font-size: 1.2em; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; }
+        .note { font-size: 0.9em; color: #666; background: #f0f0f5; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
+        label { display: flex; align-items: center; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+        label:hover { background-color: #f9f9f9; }
+        input[type="radio"] { margin-right: 12px; transform: scale(1.2); }
+        .flight-time { font-weight: bold; color: #333; margin-right: 10px; }
+        .flight-info { display: flex; flex-direction: column; }
+        .flight-no { font-size: 0.85em; color: #007aff; }
+        .airport { font-size: 0.8em; color: #888; }
+        
+        button { width: 100%; padding: 15px; background-color: #007aff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #005bb5; }
+        
+        #result-area { display: none; margin-top: 20px; }
+        textarea { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>1月9日 去程 (北京→长沙)</h2>
+        <div class="note">⚠️ 从黄花机场至酒店约 1-1.5 小时</div>
+        <form id="flightForm">
+            <label>
+                <input type="radio" name="departure" value="CA1399 (09:55-12:50 首都T3)">
+                <div class="flight-info">
+                    <span class="flight-time">09:55 - 12:50</span>
+                    <span class="flight-no">国航 CA1399</span>
+                    <span class="airport">首都T3 ➔ 黄花T1</span>
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="departure" value="HU7335 (12:15-14:55 首都T2)">
+                <div class="flight-info">
+                    <span class="flight-time">12:15 - 14:55</span>
+                    <span class="flight-no">海航 HU7335</span>
+                    <span class="airport">首都T2 ➔ 黄花T2</span>
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="departure" value="CA1373 (13:15-15:55 首都T3)">
+                <div class="flight-info">
+                    <span class="flight-time">13:15 - 15:55</span>
+                    <span class="flight-no">国航 CA1373</span>
+                    <span class="airport">首都T3 ➔ 黄花T1</span>
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="departure" value="CZ3718 (13:15-16:00 大兴)">
+                <div class="flight-info">
+                    <span class="flight-time">13:15 - 16:00</span>
+                    <span class="flight-no">南航 CZ3718</span>
+                    <span class="airport">大兴 ➔ 黄花T2</span>
+                </div>
+            </label>
+
+            <h2 style="margin-top:30px;">1月11日 返程 (长沙→北京)</h2>
+            <div class="note">⚠️ 14:30 退房，16:00 送机</div>
+            
+            <label>
+                <input type="radio" name="return" value="CA1374 (17:00-19:30 首都T3)">
+                <div class="flight-info">
+                    <span class="flight-time">17:00 - 19:30</span>
+                    <span class="flight-no">国航 CA1374</span>
+                    <span class="airport">黄花T1 ➔ 首都T3</span>
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="return" value="CZ3147 (17:30-20:00 大兴)">
+                <div class="flight-info">
+                    <span class="flight-time">17:30 - 20:00</span>
+                    <span class="flight-no">南航 CZ3147</span>
+                    <span class="airport">黄花T2 ➔ 大兴</span>
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="return" value="MU9968 (18:30-21:00 大兴)">
+                <div class="flight-info">
+                    <span class="flight-time">18:30 - 21:00</span>
+                    <span class="flight-no">东航 MU9968</span>
+                    <span class="airport">黄花T2 ➔ 大兴</span>
+                </div>
+            </label>
+        </form>
+    </div>
+
+    <button onclick="generateSummary()">生成我的选择</button>
+
+    <div id="result-area" class="card">
+        <h3>复制以下内容回复：</h3>
+        <textarea id="resultText"></textarea>
+    </div>
+
+    <script>
+        function generateSummary() {
+            const dep = document.querySelector('input[name="departure"]:checked');
+            const ret = document.querySelector('input[name="return"]:checked');
+            
+            if (!dep || !ret) {
+                alert("请先选择去程和返程航班！");
+                return;
+            }
+
+            const text = `【行程确认】\n去程：${dep.value}\n返程：${ret.value}`;
+            document.getElementById('resultText').value = text;
+            document.getElementById('result-area').style.display = 'block';
+            
+            // 自动滚动到底部
+            document.getElementById('result-area').scrollIntoView({behavior: "smooth"});
+        }
+    </script>
+</body>
+</html>
